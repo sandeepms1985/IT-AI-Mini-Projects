@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Smart Recruitment System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background: #333;
+            color: #f4f4f4;
+        }
+
+        header {
+            background: #004aad;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header.dark-mode {
+            background: #002966;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .tab-content {
+            display: none;
+            margin-top: 30px;
+        }
+
+        #home {
+            display: block;
+        }
+
+        .btn {
+            background: #004aad;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background: #003080;
+        }
+
+        .btn-green {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .btn-green:hover {
+            background: #218838;
+        }
+
+        .btn-back {
+            background: #ff5733;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-back:hover {
+            background: #c70039;
+        }
+
+        .btn-red {
+            background: #dc2626;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-red:hover {
+            background: #b91c1c;
+        }
+
+        .form-box {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-image: linear-gradient(to bottom right, #e6f0ff, #f0f5ff);
+        }
+
+        .form-box.dark-mode {
+            background-color: #444;
+            background-image: none;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .form-box h2 {
+            text-align: center;
+            color: #004aad;
+        }
+
+        .form-box.dark-mode h2 {
+            color: #66b2ff;
+        }
+
+        .form-box input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .form-box input.error {
+            border-color: #ff3333;
+        }
+
+        .form-box button {
+            background-color: #004aad;
+            color: white;
+            padding: 10px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .form-box button:hover {
+            background-color: #003080;
+        }
+
+        .link-text {
+            text-align: center;
+            display: block;
+            margin-top: 15px;
+            color: #004aad;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .link-text.dark-mode {
+            color: #66b2ff;
+        }
+
+        .category-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .job {
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            color: white;
+        }
+
+        .job:hover {
+            transform: translateY(-5px);
+        }
+
+        .it-job {
+            background: linear-gradient(135deg, #007bff, #3399ff);
+        }
+
+        .nonit-job {
+            background: linear-gradient(135deg, #28a745, #5cd65c);
+        }
+
+        .job h4 {
+            margin: 0 0 10px;
+            font-size: 1.2em;
+        }
+
+        .job p {
+            margin: 0 0 10px;
+        }
+
+        .search-bar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 300px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #004aad;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .dark-mode-toggle:hover {
+            background: #003080;
+        }
+
+        .resume-upload {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-image: linear-gradient(to bottom right, #e6f0ff, #f0f5ff);
+            display: none;
+        }
+
+        .resume-upload.dark-mode {
+            background-color: #444;
+            background-image: none;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .resume-upload h3 {
+            color: #004aad;
+            text-align: center;
+        }
+
+        .resume-upload.dark-mode h3 {
+            color: #66b2ff;
+        }
+
+        .resume-upload input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .result.eligible {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .result.not-eligible {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        footer {
+            text-align: center;
+            background: #222;
+            color: white;
+            padding: 10px;
+            margin-top: 40px;
+        }
+
+        footer.dark-mode {
+            background: #111;
+        }
+
+        .test-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .test-box {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px;
+            width: 45%;
+            text-align: center;
+        }
+
+        .test-box.dark-mode {
+            background-color: #444;
+            color: #f4f4f4;
+        }
+
+        .test-box h3 {
+            color: #004aad;
+        }
+
+        .test-box.dark-mode h3 {
+            color: #66b2ff;
+        }
+
+        .test-box p {
+            margin: 10px 0;
+        }
+
+        .test-interface {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-image: linear-gradient(to bottom right, #e6f0ff, #d4f0ff);
+        }
+
+        .test-interface.dark-mode {
+            background-color: #444;
+            background-image: linear-gradient(to bottom right, #555, #333);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .test-interface h3 {
+            color: #004aad;
+            text-align: center;
+        }
+
+        .test-interface.dark-mode h3 {
+            color: #66b2ff;
+        }
+
+        .test-question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s;
+        }
+
+        .test-question.dark-mode {
+            background-color: #555;
+        }
+
+        .test-question p {
+            margin: 10px 0;
+            color: #1e90ff;
+            /* Blue for question text */
+            font-weight: bold;
+        }
+
+        .test-question.dark-mode p {
+            color: #87ceeb;
+        }
+
+        .test-question label {
+            display: block;
+            margin: 5px 0;
+            color: #2e8b57;
+            /* Green for option labels */
+        }
+
+        .test-question.dark-mode label {
+            color: #90ee90;
+        }
+
+        .test-question input[type="radio"] {
+            accent-color: #9932cc;
+            /* Purple for radio buttons */
+        }
+
+        .test-result {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .test-result.correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .test-result.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .notification {
+            display: none;
+            position: fixed;
+            top: 60px;
+            right: 10px;
+            background: #004aad;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .notification.dark-mode {
+            background: #66b2ff;
+        }
+
+        #video-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 200px;
+            height: 150px;
+            display: none;
+        }
+
+        #video-container video {
+            width: 100%;
+            height: 100%;
+            border: 2px solid #004aad;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        #video-container.dark-mode video {
+            border-color: #66b2ff;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+        }
+
+        #recorded-videos,
+        #analytics {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-image: linear-gradient(to bottom right, #e6f0ff, #d4f0ff);
+        }
+
+        #recorded-videos.dark-mode,
+        #analytics.dark-mode {
+            background-color: #444;
+            background-image: linear-gradient(to bottom right, #555, #333);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        #recorded-videos h2,
+        #analytics h2,
+        #analytics h3 {
+            color: #004aad;
+            text-align: center;
+        }
+
+        #recorded-videos.dark-mode h2,
+        #analytics.dark-mode h2,
+        #analytics.dark-mode h3 {
+            color: #66b2ff;
+        }
+
+        .video-item,
+        .analytics-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .video-item.dark-mode,
+        .analytics-item.dark-mode {
+            background-color: #555;
+        }
+
+        .video-item video {
+            width: 100%;
+            max-width: 300px;
+            border: 2px solid #004aad;
+            border-radius: 5px;
+        }
+
+        .video-item.dark-mode video {
+            border-color: #66b2ff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>AI Smart Recruitment System</h1>
+        <nav>
+            <a onclick="showTab('home')">Home</a>
+            <a onclick="showTab('jobs')">Jobs</a>
+            <a onclick="showTab('test')">Test</a>
+            <a onclick="showTab('recorded-videos')">Recorded Videos</a>
+            <a onclick="showTab('analytics')">Analytics</a>
+            <a onclick="showTab('login')">Login</a>
+            <a onclick="showTab('register')">Register</a>
+            <a onclick="showTab('about')">About Us</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+        <section id="home" class="tab-content" style="display: block;">
+            <h2>Welcome to AI Smart Recruitment System</h2>
+            <p>Find your dream job in IT or Non-IT sectors using AI-powered matching.</p>
+            <button class="btn" onclick="showTab('register')">Get Started</button>
+        </section>
+
+        <section id="jobs" class="tab-content">
+            <h2 style="text-align:center;">Job Categories</h2>
+            <div class="search-bar">
+                <input type="text" id="job-search" placeholder="Search jobs..." oninput="searchJobs()">
+            </div>
+            <div class="category-buttons">
+                <button class="btn" onclick="toggleJobs('it')">IT Jobs</button>
+                <button class="btn" onclick="toggleJobs('nonit')">Non-IT Jobs</button>
+            </div>
+
+            <div class="resume-upload" id="resume-upload">
+                <h3 id="upload-job-title">Upload Resume</h3>
+                <p id="upload-job-desc"></p>
+                <input type="file" id="resume-file" accept=".pdf,.doc,.docx" required>
+                <button class="btn" onclick="processResume()">Apply</button>
+                <div id="ats-result" class="result" style="display: none;"></div>
+            </div>
+
+            <div id="it-jobs" style="display: none;">
+                <div class="job it-job">
+                    <h4>Front-End Developer</h4>
+                    <p>HTML, CSS, JS, React</p>
+                    <button class="btn" onclick="showResumeUpload('Front-End Developer', 'HTML, CSS, JS, React', 'it')">Apply Now</button>
+                </div>
+                <div class="job it-job">
+                    <h4>Back-End Developer</h4>
+                    <p>Node.js, Express, MongoDB</p>
+                    <button class="btn" onclick="showResumeUpload('Back-End Developer', 'Node.js, Express, MongoDB', 'it')">Apply Now</button>
+                </div>
+                <div class="job it-job">
+                    <h4>Full Stack Developer</h4>
+                    <p>MERN, LAMP</p>
+                    <button class="btn" onclick="showResumeUpload('Full Stack Developer', 'MERN, LAMP', 'it')">Apply Now</button>
+                </div>
+                <div class="job it-job">
+                    <h4>AI Engineer</h4>
+                    <p>Python, ML, NLP, C</p>
+                    <button class="btn" onclick="showResumeUpload('AI Engineer', 'Python, ML, NLP, C', 'it')">Apply Now</button>
+                </div>
+                <div class="job it-job">
+                    <h4>Cloud Engineer</h4>
+                    <p>AWS, Azure, DevOps</p>
+                    <button class="btn" onclick="showResumeUpload('Cloud Engineer', 'AWS, Azure, DevOps', 'it')">Apply Now</button>
+                </div>
+            </div>
+
+            <div id="nonit-jobs" style="display: none;">
+                <div class="job nonit-job">
+                    <h4>HR Executive</h4>
+                    <p>Recruitment, HRMS, Employee Engagement</p>
+                    <button class="btn" onclick="showResumeUpload('HR Executive', 'Recruitment, HRMS, Employee Engagement', 'nonit')">Apply Now</button>
+                </div>
+                <div class="job nonit-job">
+                    <h4>Marketing Associate</h4>
+                    <p>SEO, Campaigns, Branding</p>
+                    <button class="btn" onclick="showResumeUpload('Marketing Associate', 'SEO, Campaigns, Branding', 'nonit')">Apply Now</button>
+                </div>
+                <div class="job nonit-job">
+                    <h4>Business Analyst</h4>
+                    <p>Data Analysis, Strategy</p>
+                    <button class="btn" onclick="showResumeUpload('Business Analyst', 'Data Analysis, Strategy', 'nonit')">Apply Now</button>
+                </div>
+                <div class="job nonit-job">
+                    <h4>Content Writer</h4>
+                    <p>Blogs, Articles, Copywriting</p>
+                    <button class="btn" onclick="showResumeUpload('Content Writer', 'Blogs, Articles, Copywriting', 'nonit')">Apply Now</button>
+                </div>
+                <div class="job nonit-job">
+                    <h4>Sales Executive</h4>
+                    <p>Client Management, Field Sales</p>
+                    <button class="btn" onclick="showResumeUpload('Sales Executive', 'Client Management, Field Sales', 'nonit')">Apply Now</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="test" class="tab-content">
+            <h2>Test Section</h2>
+            <p>Below are the available tests for shortlisted candidates. Select a test to begin.</p>
+            <div class="test-section" id="test-section"></div>
+            <button class="btn" onclick="showTab('jobs')">Back to Jobs</button>
+        </section>
+
+        <section id="recorded-videos" class="tab-content">
+            <h2>Recorded Videos</h2>
+            <p>View videos recorded during your test sessions.</p>
+            <div id="video-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </section>
+
+        <section id="analytics" class="tab-content">
+            <h2>Analytics</h2>
+            <p>View analytics for registered users, shortlisted candidates, interview completions, and recorded videos.</p>
+            <h3>Registered Users</h3>
+            <div id="registered-users-list" class="analytics-item"></div>
+            <h3>Shortlisted Candidates</h3>
+            <div id="shortlisted-candidates-list" class="analytics-item"></div>
+            <h3>Interview-Completed Candidates</h3>
+            <div id="interview-completed-list" class="analytics-item"></div>
+            <h3>Video Analytics</h3>
+            <div id="analytics-list"></div>
+        </section>
+
+        <div id="notification" class="notification">
+            <span id="notification-text"></span>
+            <button onclick="closeNotification()" style="background: none; border: none; color: white; margin-left: 10px; cursor: pointer;">✕</button>
+        </div>
+        <section id="test-interface" class="tab-content">
+            <div class="test-interface" id="test-content">
+                <h3 id="test-title">Test</h3>
+                <div id="video-container" style="position: fixed; top: 10px; right: 10px; width: 200px; height: 150px; display: none;">
+                    <video id="webcam" autoplay muted style="width: 100%; height: 100%; border: 2px solid #004aad; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.2);"></video>
+                </div>
+                <form id="test-form">
+                    <div id="test-questions"></div>
+                    <button type="submit" class="btn">Submit Test</button>
+                </form>
+                <div id="test-result" class="test-result" style="display: none;"></div>
+                <button class="btn-back" onclick="stopRecording(); stopMediaStream(); showTab('test')">Back to Tests</button>
+            </div>
+        </section>
+
+        <section id="login" class="tab-content">
+            <div class="form-box">
+                <h2>Login</h2>
+                <form onsubmit="loginUser(event)">
+                    <input type="email" id="login-email" placeholder="Email" required>
+                    <input type="password" id="login-pass" placeholder="Password" required minlength="6">
+                    <button type="submit">Login</button>
+                </form>
+                <a class="link-text" onclick="showTab('register')">New user? Register here</a>
+            </div>
+        </section>
+
+        <section id="register" class="tab-content">
+            <div class="form-box">
+                <h2>Register</h2>
+                <form onsubmit="registerUser(event)">
+                    <input type="text" id="reg-name" placeholder="Full Name" required pattern="[A-Za-z\s]{2,}">
+                    <input type="email" id="reg-email" placeholder="Email" required>
+                    <input type="tel" id="reg-mobile" placeholder="Mobile Number" required pattern="[0-9]{10}">
+                    <input type="password" id="reg-pass" placeholder="Password" required minlength="6">
+                    <input type="password" id="reg-cpass" placeholder="Confirm Password" required minlength="6">
+                    <button type="submit">Register</button>
+                </form>
+                <a class="link-text" onclick="showTab('login')">Already registered? Login here</a>
+            </div>
+        </section>
+
+        <section id="about" class="tab-content">
+            <h2>About Us</h2>
+            <p>This system uses AI to streamline recruitment by testing, analyzing, and interviewing candidates automatically.</p>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>© 2025 AI Recruit. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docxtemplater@3.38.1/dist/docxtemplater.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pizzip@3.1.4/dist/pizzip.js"></script>
+
+    <script>
+        let currentJobTitle = '';
+        let currentJobDescription = '';
+        let jobType = ''; // 'it' or 'nonit'
+        let isShortlisted = false;
+        let currentTestType = '';
+        let currentQuestions = [];
+        let userAnswers = [];
+        let currentTestIndex = 0;
+        let mediaStream = null;
+        let recorder = null;
+        let recordedVideos = [];
+        let registeredUsers = [];
+        let shortlistedCandidates = [];
+        let interviewCompletedCandidates = [];
+
+        function getTestSequence() {
+            return jobType === 'it' ?
+                ['aptitude', 'programming', 'technical', 'interview'] :
+                ['aptitude', 'communication', 'interview'];
+        }
+
+        function showTab(tabId) {
+            if (tabId === 'test' && !isShortlisted) {
+                showNotification('You need to be shortlisted to access the Test page. Please apply and meet the eligibility criteria.');
+                return;
+            }
+            document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+            document.getElementById(tabId).style.display = 'block';
+
+            if (tabId === 'test') {
+                renderTestSection();
+            }
+            if (tabId === 'recorded-videos') {
+                displayVideos();
+            }
+            if (tabId === 'analytics') {
+                updateAnalytics();
+            }
+            if (tabId !== 'jobs') {
+                document.getElementById('it-jobs').style.display = 'none';
+                document.getElementById('nonit-jobs').style.display = 'none';
+                document.getElementById('job-search').value = '';
+                document.getElementById('resume-upload').style.display = 'none';
+                searchJobs();
+            }
+            if (tabId !== 'test-interface') {
+                stopRecording();
+                stopMediaStream();
+            }
+        }
+
+        function renderTestSection() {
+            const testSection = document.getElementById('test-section');
+            testSection.innerHTML = '';
+            const testSequence = getTestSequence();
+            const testConfigs = {
+                'aptitude': {
+                    title: 'Aptitude Test',
+                    description: 'Test your logical reasoning and problem-solving skills.'
+                },
+                'programming': {
+                    title: 'Programming Test',
+                    description: 'Demonstrate your coding abilities with practical problems.'
+                },
+                'technical': {
+                    title: 'Technical Test',
+                    description: 'Showcase your technical knowledge in your domain.'
+                },
+                'communication': {
+                    title: 'Communication Test',
+                    description: 'Assess your communication and interpersonal skills.'
+                },
+                'interview': {
+                    title: 'Interview Chat Bot',
+                    description: 'Engage with our AI-powered interview bot to simulate a real interview.'
+                }
+            };
+
+            testSequence.forEach(testType => {
+                const config = testConfigs[testType];
+                const testBox = document.createElement('div');
+                testBox.className = 'test-box' + (document.body.classList.contains('dark-mode') ? ' dark-mode' : '');
+                testBox.innerHTML = `
+        <h3>${config.title}</h3>
+        <p>${config.description}</p>
+        <button class="btn" onclick="startTest('${testType}')">Take Test</button>
+      `;
+                testSection.appendChild(testBox);
+            });
+        }
+
+        function toggleJobs(type) {
+            document.getElementById('it-jobs').style.display = type === 'it' ? 'block' : 'none';
+            document.getElementById('nonit-jobs').style.display = type === 'nonit' ? 'block' : 'none';
+            document.getElementById('job-search').value = '';
+            document.getElementById('resume-upload').style.display = 'none';
+            searchJobs();
+        }
+
+        function searchJobs() {
+            const searchTerm = document.getElementById('job-search').value.toLowerCase();
+            const jobs = document.querySelectorAll('.job');
+            jobs.forEach(job => {
+                const title = job.querySelector('h4').textContent.toLowerCase();
+                const description = job.querySelector('p').textContent.toLowerCase();
+                job.style.display = (title.includes(searchTerm) || description.includes(searchTerm)) ? 'block' : 'none';
+            });
+        }
+
+        function registerUser(event) {
+            event.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const mobile = document.getElementById('reg-mobile').value;
+            const pass = document.getElementById('reg-pass').value;
+            const cpass = document.getElementById('reg-cpass').value;
+
+            document.querySelectorAll('.form-box input').forEach(input => input.classList.remove('error'));
+
+            if (!/^[A-Za-z\s]{2,}$/.test(name)) {
+                document.getElementById('reg-name').classList.add('error');
+                showNotification('Please enter a valid name (letters and spaces only, minimum 2 characters).');
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                document.getElementById('reg-email').classList.add('error');
+                showNotification('Please enter a valid email address.');
+                return;
+            }
+
+            if (!/^[0-9]{10}$/.test(mobile)) {
+                document.getElementById('reg-mobile').classList.add('error');
+                showNotification('Please enter a valid 10-digit mobile number.');
+                return;
+            }
+
+            if (pass.length < 6) {
+                document.getElementById('reg-pass').classList.add('error');
+                showNotification('Password must be at least 6 characters long.');
+                return;
+            }
+
+            if (pass !== cpass) {
+                document.getElementById('reg-pass').classList.add('error');
+                document.getElementById('reg-cpass').classList.add('error');
+                showNotification('Passwords do not match!');
+                return;
+            }
+
+            registeredUsers.push({
+                name,
+                email,
+                mobile
+            });
+            updateAnalytics();
+            showNotification('Registration successful!');
+            showTab('jobs');
+        }
+
+        function loginUser(event) {
+            event.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-pass').value;
+
+            document.querySelectorAll('.form-box input').forEach(input => input.classList.remove('error'));
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                document.getElementById('login-email').classList.add('error');
+                showNotification('Please enter a valid email address.');
+                return;
+            }
+
+            if (pass.length < 6) {
+                document.getElementById('login-pass').classList.add('error');
+                showNotification('Password must be at least 6 characters long.');
+                return;
+            }
+
+            showNotification('Login successful!');
+            showTab('jobs');
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('header').classList.toggle('dark-mode');
+            document.querySelector('footer').classList.toggle('dark-mode');
+            document.querySelectorAll('.form-box').forEach(box => box.classList.toggle('dark-mode'));
+            document.querySelectorAll('.test-box').forEach(box => box.classList.toggle('dark-mode'));
+            document.querySelector('.resume-upload').classList.toggle('dark-mode');
+            document.querySelector('.test-interface').classList.toggle('dark-mode');
+            document.querySelector('.notification').classList.toggle('dark-mode');
+            document.getElementById('video-container').classList.toggle('dark-mode');
+            document.getElementById('recorded-videos').classList.toggle('dark-mode');
+            document.getElementById('analytics').classList.toggle('dark-mode');
+            document.querySelectorAll('.video-item').forEach(item => item.classList.toggle('dark-mode'));
+            document.querySelectorAll('.analytics-item').forEach(item => item.classList.toggle('dark-mode'));
+            if (isShortlisted) {
+                renderTestSection();
+            }
+            displayVideos();
+            updateAnalytics();
+        }
+
+        function showResumeUpload(jobTitle, jobDescription, type) {
+            currentJobTitle = jobTitle;
+            currentJobDescription = jobDescription;
+            jobType = type; // Set jobType to 'it' or 'nonit'
+            const uploadSection = document.getElementById('resume-upload');
+            document.getElementById('upload-job-title').textContent = `Upload Resume for ${jobTitle}`;
+            document.getElementById('upload-job-desc').textContent = `Skills: ${jobDescription}`;
+            document.getElementById('resume-file').value = '';
+            document.getElementById('ats-result').style.display = 'none';
+            uploadSection.style.display = 'block';
+            window.scrollTo(0, uploadSection.offsetTop);
+        }
+
+        async function processResume() {
+            const fileInput = document.getElementById('resume-file');
+            const file = fileInput.files[0];
+            const resultDiv = document.getElementById('ats-result');
+
+            if (!file) {
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'result not-eligible';
+                resultDiv.innerHTML = 'Please select a resume file.';
+                return;
+            }
+
+            const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            if (!validTypes.includes(file.type)) {
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'result not-eligible';
+                resultDiv.innerHTML = 'Please upload a valid resume file (PDF, DOC, or DOCX).';
+                return;
+            }
+
+            let resumeText = '';
+            try {
+                if (file.type === 'application/pdf') {
+                    resumeText = await extractTextFromPDF(file);
+                } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                    resumeText = await extractTextFromDocx(file);
+                } else {
+                    resultDiv.style.display = 'block';
+                    resultDiv.className = 'result not-eligible';
+                    resultDiv.innerHTML = 'DOC file parsing is not fully supported. Please use DOCX or PDF.';
+                    return;
+                }
+
+                const atsScore = calculateATSScore(resumeText, currentJobDescription);
+
+                resultDiv.style.display = 'block';
+                if (atsScore >= 60) {
+                    isShortlisted = true;
+                    currentTestIndex = 0; // Reset test index on new application
+                    const user = registeredUsers[registeredUsers.length - 1] || {
+                        name: 'Unknown',
+                        email: 'unknown@example.com'
+                    };
+                    shortlistedCandidates.push({
+                        name: user.name,
+                        email: user.email,
+                        jobTitle: currentJobTitle,
+                        atsScore: atsScore.toFixed(2)
+                    });
+                    updateAnalytics();
+                    resultDiv.className = 'result eligible';
+                    resultDiv.innerHTML = `Your ATS score is ${atsScore.toFixed(2)}%. You are eligible for the ${currentJobTitle} position. <button class="btn-green" onclick="showTab('test')">Proceed to Test</button>`;
+                } else {
+                    resultDiv.className = 'result not-eligible';
+                    resultDiv.innerHTML = `Your ATS score is ${atsScore.toFixed(2)}%. Sorry, you are not eligible for the ${currentJobTitle} position.`;
+                }
+            } catch (error) {
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'result not-eligible';
+                resultDiv.innerHTML = `Error processing the resume file: ${error.message}.`;
+            }
+        }
+
+        async function extractTextFromPDF(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({
+                data: arrayBuffer
+            }).promise;
+            let text = '';
+            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const textContent = await page.getTextContent();
+                text += textContent.items.map(item => item.str).join(' ') + ' ';
+            }
+            return text.trim();
+        }
+
+        async function extractTextFromDocx(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const zip = new JSZip();
+            await zip.loadAsync(arrayBuffer);
+            const xml = await zip.file('word/document.xml').async('string');
+            const doc = new DOMParser().parseFromString(xml, 'application/xml');
+            const paragraphs = doc.getElementsByTagName('w:p');
+            let text = '';
+            for (let p of paragraphs) {
+                const runs = p.getElementsByTagName('w:r');
+                for (let r of runs) {
+                    const textNode = r.getElementsByTagName('w:t')[0];
+                    if (textNode) {
+                        text += textNode.textContent + ' ';
+                    }
+                }
+            }
+            return text.trim();
+        }
+
+        function calculateATSScore(resumeText, jobDescription) {
+            const synonyms = {
+                'js': ['javascript'],
+                'javascript': ['js'],
+                'ml': ['machine learning', 'machine-learning'],
+                'machine learning': ['ml', 'machine-learning'],
+                'machine-learning': ['ml', 'machine learning'],
+                'nlp': ['natural language processing', 'natural-language-processing'],
+                'natural language processing': ['nlp', 'natural-language-processing'],
+                'natural-language-processing': ['nlp', 'natural language processing'],
+                'node.js': ['node', 'nodejs'],
+                'nodejs': ['node.js', 'node'],
+                'node': ['node.js', 'nodejs'],
+                'mern': ['mern stack'],
+                'mern stack': ['mern'],
+                'lamp': ['lamp stack'],
+                'lamp stack': ['lamp'],
+                'aws': ['amazon web services'],
+                'amazon web services': ['aws'],
+                'hrms': ['human resource management system'],
+                'human resource management system': ['hrms'],
+                'seo': ['search engine optimization'],
+                'search engine optimization': ['seo'],
+                'data analysis': ['data-analysis'],
+                'data-analysis': ['data analysis'],
+                'employee engagement': ['employee-engagement'],
+                'employee-engagement': ['employee engagement'],
+                'client management': ['client-management'],
+                'client-management': ['client management'],
+                'field sales': ['field-sales'],
+                'field-sales': ['field sales'],
+                'c': ['c programming', 'c language'],
+                'c programming': ['c'],
+                'c language': ['c']
+            };
+
+            const jobWords = jobDescription.toLowerCase()
+                .split(',')
+                .map(word => word.trim())
+                .filter(word => word);
+
+            const resumeWords = resumeText.toLowerCase()
+                .split(/[\s,]+/)
+                .map(word => word.trim())
+                .filter(word => word);
+
+            let matchCount = 0;
+            jobWords.forEach(jobWord => {
+                const termsToCheck = [jobWord, ...(synonyms[jobWord] || []).map(s => s.toLowerCase())];
+                if (termsToCheck.some(term =>
+                        resumeWords.includes(term) ||
+                        resumeWords.some(resumeWord => resumeWord.includes(term.replace(/\s+/g, '')))
+                    )) {
+                    matchCount++;
+                }
+            });
+
+            const score = jobWords.length > 0 ? (matchCount / jobWords.length) * 100 : 0;
+            return Math.min(score, 100);
+        }
+
+        function showNotification(message, duration = 5000) {
+            const notification = document.getElementById('notification');
+            document.getElementById('notification-text').textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, duration);
+        }
+
+        function closeNotification() {
+            document.getElementById('notification').style.display = 'none';
+        }
+
+        async function requestMediaAccess() {
+            try {
+                mediaStream = await navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: true
+                });
+                const videoElement = document.getElementById('webcam');
+                videoElement.srcObject = mediaStream;
+                document.getElementById('video-container').style.display = 'block';
+                return true;
+            } catch (error) {
+                showNotification('Failed to access camera and microphone. Please grant permissions and ensure devices are available.', 7000);
+                return false;
+            }
+        }
+
+        function stopMediaStream() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+                document.getElementById('video-container').style.display = 'none';
+            }
+        }
+
+        function startRecording() {
+            if (!mediaStream) {
+                showNotification('Cannot start recording: Camera not initialized.', 7000);
+                return;
+            }
+            recorder = new MediaRecorder(mediaStream);
+            let chunks = [];
+            recorder.ondataavailable = (e) => chunks.push(e.data);
+            recorder.onstop = () => {
+                const blob = new Blob(chunks, {
+                    type: 'video/mp4'
+                });
+                const url = URL.createObjectURL(blob);
+                const videoElement = document.createElement('video');
+                videoElement.src = url;
+                videoElement.onloadedmetadata = () => {
+                    recordedVideos.push({
+                        id: Date.now(),
+                        url: url,
+                        views: 0,
+                        duration: videoElement.duration || 0,
+                        testType: currentTestType
+                    });
+                    displayVideos();
+                    updateAnalytics();
+                };
+                chunks = [];
+            };
+            recorder.start();
+            showNotification('Recording started for ' + currentTestType.replace('css-box-model', 'CSS Box Model').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ' test.');
+        }
+
+        function stopRecording() {
+            if (recorder && recorder.state === 'recording') {
+                recorder.stop();
+                showNotification('Recording stopped and saved.');
+            }
+        }
+
+        function displayVideos() {
+            const videoList = document.getElementById('video-list');
+            videoList.innerHTML = '';
+            recordedVideos.forEach(video => {
+                const videoItem = document.createElement('div');
+                videoItem.className = 'video-item' + (document.body.classList.contains('dark-mode') ? ' dark-mode' : '');
+                videoItem.innerHTML = `
+        <p>Test: ${video.testType.replace('css-box-model', 'CSS Box Model').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</p>
+        <video src="${video.url}" controls></video>
+        <button class="btn-red" onclick="deleteVideo(${video.id})">Delete Video</button>
+      `;
+                videoItem.querySelector('video').addEventListener('play', () => {
+                    video.views++;
+                    updateAnalytics();
+                });
+                videoList.appendChild(videoItem);
+            });
+        }
+
+        function deleteVideo(videoId) {
+            recordedVideos = recordedVideos.filter(video => video.id !== videoId);
+            displayVideos();
+            updateAnalytics();
+            showNotification('Video deleted successfully.');
+        }
+
+        function updateAnalytics() {
+            const registeredUsersList = document.getElementById('registered-users-list');
+            const shortlistedCandidatesList = document.getElementById('shortlisted-candidates-list');
+            const interviewCompletedList = document.getElementById('interview-completed-list');
+            const analyticsList = document.getElementById('analytics-list');
+
+            // Registered Users
+            registeredUsersList.innerHTML = '';
+            registeredUsers.forEach(user => {
+                const item = document.createElement('div');
+                item.className = 'analytics-item' + (document.body.classList.contains('dark-mode') ? ' dark-mode' : '');
+                item.innerHTML = `
+        <p><strong>Name:</strong> ${user.name}</p>
+        <p><strong>Email:</strong> ${user.email}</p>
+        <p><strong>Mobile:</strong> ${user.mobile}</p>
+      `;
+                registeredUsersList.appendChild(item);
+            });
+
+            // Shortlisted Candidates
+            shortlistedCandidatesList.innerHTML = '';
+            shortlistedCandidates.forEach(candidate => {
+                const item = document.createElement('div');
+                item.className = 'analytics-item' + (document.body.classList.contains('dark-mode') ? ' dark-mode' : '');
+                item.innerHTML = `
+        <p><strong>Name:</strong> ${candidate.name}</p>
+        <p><strong>Email:</strong> ${candidate.email}</p>
+        <p><strong>Job Title:</strong> ${candidate.jobTitle}</p>
+        <p><strong>ATS Score:</strong> ${candidate.atsScore}%</p>
+      `;
+                shortlistedCandidatesList.appendChild(item);
+            });
+
+            // Interview-Completed Candidates
+            interviewCompletedList.innerHTML = '';
+            interviewCompletedCandidates.forEach(candidate => {
+                const item = document.createElement('div');
+                item.className = 'analytics-item' + (document.body.classList.contains('dark-mode') ? ' dark-mode' : '');
+                item.innerHTML = `
+        <p><strong>Name:</strong> ${candidate.name}</p>
+        <p><strong>Email:</strong> ${candidate.email}</p>
+        <p><strong>Job Title:</strong> ${candidate.jobTitle}</p>
+        <p><strong>Interview Score:</strong> ${candidate.interviewScore}%</p>
+      `;
+                interviewCompletedList.appendChild(item);
+            });
+
+            // Video Analytics
+            analyticsList.innerHTML = '';
+            recordedVideos.forEach(video => {
+                const analyticsItem = document.createElement('div');
+                analyticsItem.className = 'analytics-item' + (document.body.classList.contains('dark-mode') ? ' dark-mode' : '');
+                analyticsItem.innerHTML = `
+        <p><strong>Test:</strong> ${video.testType.replace('css-box-model', 'CSS Box Model').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</p>
+        <p><strong>Video ID:</strong> ${video.id}</p>
+        <p><strong>Views:</strong> ${video.views}</p>
+        <p><strong>Duration:</strong> ${video.duration.toFixed(2)} seconds</p>
+      `;
+                analyticsList.appendChild(analyticsItem);
+            });
+        }
+
+        const aptitudeQuestions = [{
+                question: "What is the next number in the series: 2, 4, 8, 16, ?",
+                options: ["32", "28", "24", "20"],
+                answer: "32"
+            },
+            {
+                question: "If 5x + 3 = 18, what is x?",
+                options: ["2", "3", "4", "5"],
+                answer: "3"
+            },
+            {
+                question: "A train travels 120 km in 2 hours. What is its speed in km/h?",
+                options: ["50", "60", "70", "80"],
+                answer: "60"
+            },
+            {
+                question: "What is 15% of 200?",
+                options: ["20", "25", "30", "35"],
+                answer: "30"
+            },
+            {
+                question: "Which word is a synonym for 'happy'?",
+                options: ["Sad", "Joyful", "Angry", "Tired"],
+                answer: "Joyful"
+            },
+            {
+                question: "If a = 4 and b = 3, what is a² + b²?",
+                options: ["7", "12", "25", "16"],
+                answer: "25"
+            },
+            {
+                question: "What is the smallest prime number?",
+                options: ["1", "2", "3", "5"],
+                answer: "2"
+            },
+            {
+                question: "If 3 pens cost $12, what is the cost of 5 pens?",
+                options: ["$18", "$20", "$22", "$24"],
+                answer: "20"
+            },
+            {
+                question: "Which number is divisible by both 2 and 3?",
+                options: ["15", "16", "18", "20"],
+                answer: "18"
+            },
+            {
+                question: "What is the opposite of 'big'?",
+                options: ["Large", "Small", "Huge", "Tall"],
+                answer: "Small"
+            }
+        ];
+
+        const programmingQuestions = [{
+                question: "What is the time complexity of a binary search?",
+                options: ["O(n)", "O(log n)", "O(n²)", "O(1)"],
+                answer: "O(log n)"
+            },
+            {
+                question: "Which data structure uses LIFO?",
+                options: ["Queue", "Stack", "Array", "Linked List"],
+                answer: "Stack"
+            },
+            {
+                question: "What does OOP stand for?",
+                options: ["Object-Oriented Programming", "Operational Object Processing", "Ordered Object Programming", "Object Output Protocol"],
+                answer: "Object-Oriented Programming"
+            },
+            {
+                question: "In Python, how do you define a function?",
+                options: ["function myFunc()", "def myFunc()", "void myFunc()", "fun myFunc()"],
+                answer: "def myFunc()"
+            },
+            {
+                question: "What is a linked list?",
+                options: ["A linear data structure", "A tree-based structure", "A hash table", "A stack"],
+                answer: "A linear data structure"
+            },
+            {
+                question: "Which keyword is used to inherit a class in Java?",
+                options: ["extends", "implements", "super", "this"],
+                answer: "extends"
+            },
+            {
+                question: "What is the purpose of a 'break' statement?",
+                options: ["Exit a loop", "Skip an iteration", "Define a function", "Declare a variable"],
+                answer: "Exit a loop"
+            },
+            {
+                question: "What is a pointer in C?",
+                options: ["A variable storing a memory address", "A data type", "A loop construct", "A function"],
+                answer: "A variable storing a memory address"
+            },
+            {
+                question: "What does SQL stand for?",
+                options: ["Structured Query Language", "Simple Query Language", "Sequential Query Language", "Standard Query Logic"],
+                answer: "Structured Query Language"
+            },
+            {
+                question: "Which sorting algorithm has the best average-case time complexity?",
+                options: ["Bubble Sort", "Insertion Sort", "Quick Sort", "Selection Sort"],
+                answer: "Quick Sort"
+            }
+        ];
+
+        const technicalQuestions = [{
+                question: "What is the output of this pseudo-code?\nSET x = 5\nSET y = 10\nIF x < y THEN\n  PRINT x\nELSE\n  PRINT y\nEND",
+                options: ["5", "10", "15", "0"],
+                answer: "5"
+            },
+            {
+                question: "What does this pseudo-code do?\nSET sum = 0\nFOR i = 1 TO 5\n  sum = sum + i\nEND\nPRINT sum",
+                options: ["Calculates sum of 1 to 5", "Prints 5", "Calculates product of 1 to 5", "Prints 1"],
+                answer: "Calculates sum of 1 to 5"
+            },
+            {
+                question: "What is the time complexity of this pseudo-code?\nFOR i = 1 TO n\n  FOR j = 1 TO n\n    PRINT i * j\n  END\nEND",
+                options: ["O(n)", "O(n²)", "O(log n)", "O(1)"],
+                answer: "O(n²)"
+            },
+            {
+                question: "What does this pseudo-code return?\nFUNCTION factorial(n)\n  IF n = 0 THEN\n    RETURN 1\n  ELSE\n    RETURN n * factorial(n-1)\n  END",
+                options: ["Factorial of n", "Sum of 1 to n", "n squared", "n"],
+                answer: "Factorial of n"
+            },
+            {
+                question: "What is the purpose of a compiler?",
+                options: ["Translate code to machine language", "Execute code", "Debug code", "Optimize algorithms"],
+                answer: "Translate code to machine language"
+            },
+            {
+                question: "What is the output of this pseudo-code?\nSET a = 3\nSET b = 2\nPRINT a MOD b",
+                options: ["1", "2", "3", "0"],
+                answer: "1"
+            },
+            {
+                question: "What does this pseudo-code do?\nSET arr = [1, 2, 3, 4]\nSET n = LENGTH(arr)\nFOR i = 0 TO n-1\n  arr[i] = arr[i] * 2\nEND",
+                options: ["Doubles each element", "Sorts the array", "Reverses the array", "Sums the elements"],
+                answer: "Doubles each element"
+            },
+            {
+                question: "What is the space complexity of a recursive factorial function?",
+                options: ["O(n)", "O(1)", "O(log n)", "O(n²)"],
+                answer: "O(n)"
+            },
+            {
+                question: "What is a deadlock in operating systems?",
+                options: ["Processes waiting indefinitely", "A memory leak", "A syntax error", "A network failure"],
+                answer: "Processes waiting indefinitely"
+            },
+            {
+                question: "What does this pseudo-code return?\nFUNCTION sumArray(arr)\n  SET sum = 0\n  FOR i = 0 TO LENGTH(arr)-1\n    sum = sum + arr[i]\n  END\n  RETURN sum",
+                options: ["Sum of array elements", "Array length", "Maximum element", "Minimum element"],
+                answer: "Sum of array elements"
+            }
+        ];
+
+        const communicationQuestions = [{
+                question: "What is the key to effective communication in a workplace?",
+                options: ["Clarity and conciseness", "Using complex jargon", "Speaking loudly", "Avoiding feedback"],
+                answer: "Clarity and conciseness"
+            },
+            {
+                question: "How should you handle a misunderstanding during a conversation?",
+                options: ["Clarify and restate your point", "Ignore it", "Change the topic", "Blame the other person"],
+                answer: "Clarify and restate your point"
+            },
+            {
+                question: "What is active listening?",
+                options: ["Fully focusing on the speaker", "Multitasking while listening", "Interrupting to ask questions", "Thinking about your response"],
+                answer: "Fully focusing on the speaker"
+            },
+            {
+                question: "Which is a non-verbal communication cue?",
+                options: ["Body language", "Email content", "Written reports", "Phone calls"],
+                answer: "Body language"
+            },
+            {
+                question: "What is the purpose of feedback in communication?",
+                options: ["Improve understanding and performance", "Criticize others", "End the conversation", "Show authority"],
+                answer: "Improve understanding and performance"
+            },
+            {
+                question: "How can you make a presentation more engaging?",
+                options: ["Use visuals and stories", "Read from slides", "Speak quickly", "Avoid audience interaction"],
+                answer: "Use visuals and stories"
+            },
+            {
+                question: "What is an effective way to resolve conflict in a team?",
+                options: ["Open and respectful dialogue", "Ignoring the issue", "Assigning blame", "Avoiding the team"],
+                answer: "Open and respectful dialogue"
+            },
+            {
+                question: "What does empathy in communication mean?",
+                options: ["Understanding others' perspectives", "Focusing on your own views", "Giving instructions", "Using formal language"],
+                answer: "Understanding others' perspectives"
+            },
+            {
+                question: "Why is tone important in communication?",
+                options: ["It conveys attitude and emotion", "It replaces content", "It speeds up delivery", "It simplifies messages"],
+                answer: "It conveys attitude and emotion"
+            },
+            {
+                question: "What is a barrier to effective communication?",
+                options: ["Cultural differences", "Clear instructions", "Active listening", "Concise messages"],
+                answer: "Cultural differences"
+            }
+        ];
+
+        const cssBoxModelQuestions = [{
+                question: "What are the components of the CSS Box Model?",
+                options: ["Content, Padding, Border, Margin", "Content, Border, Outline, Shadow", "Padding, Margin, Width, Height", "Content, Float, Display, Position"],
+                answer: "Content, Padding, Border, Margin"
+            },
+            {
+                question: "What does the 'box-sizing: border-box' property do?",
+                options: ["Includes padding and border in element's width/height", "Excludes padding from width", "Sets margin to zero", "Aligns content to the center"],
+                answer: "Includes padding and border in element's width/height"
+            },
+            {
+                question: "Which CSS property controls the space outside an element's border?",
+                options: ["Padding", "Margin", "Border", "Outline"],
+                answer: "Margin"
+            },
+            {
+                question: "What is the default value of the 'box-sizing' property?",
+                options: ["content-box", "border-box", "inherit", "initial"],
+                answer: "content-box"
+            },
+            {
+                question: "How does 'padding: 10px 20px' affect an element?",
+                options: ["10px top/bottom, 20px left/right", "20px top/bottom, 10px left/right", "10px all sides", "20px all sides"],
+                answer: "10px top/bottom, 20px left/right"
+            },
+            {
+                question: "What happens when 'margin: auto' is applied to a block element?",
+                options: ["Centers the element horizontally", "Centers the element vertically", "Sets margin to zero", "Expands the element"],
+                answer: "Centers the element horizontally"
+            },
+            {
+                question: "Which part of the box model is affected by the 'border-width' property?",
+                options: ["Border", "Padding", "Content", "Margin"],
+                answer: "Border"
+            },
+            {
+                question: "What is the total width of an element with width: 100px, padding: 10px, border: 5px, and box-sizing: border-box?",
+                options: ["100px", "130px", "120px", "110px"],
+                answer: "100px"
+            },
+            {
+                question: "What does 'margin-collapse' refer to in the CSS Box Model?",
+                options: ["Adjacent vertical margins combine", "Padding overlaps with border", "Content shrinks", "Horizontal margins merge"],
+                answer: "Adjacent vertical margins combine"
+            },
+            {
+                question: "Which CSS property can be used to add a visual outline that does not affect the box model?",
+                options: ["Outline", "Border", "Padding", "Margin"],
+                answer: "Outline"
+            }
+        ];
+
+        const interviewQuestions = [{
+                question: "Tell me about yourself.",
+                options: ["Provide a brief professional summary", "Discuss personal hobbies", "Talk about family", "Share unrelated details"],
+                answer: "Provide a brief professional summary"
+            },
+            {
+                question: "What is your greatest strength?",
+                options: ["Technical skills", "Unrelated skills", "Personal traits", "Hobbies"],
+                answer: "Technical skills"
+            },
+            {
+                question: "Why do you want to work here?",
+                options: ["Company values and opportunities", "High salary", "Location", "No specific reason"],
+                answer: "Company values and opportunities"
+            },
+            {
+                question: "How do you handle stress?",
+                options: ["Prioritize and organize tasks", "Avoid stress", "Ignore tasks", "Complain"],
+                answer: "Prioritize and organize tasks"
+            },
+            {
+                question: "What is your experience with teamwork?",
+                options: ["Collaborated on projects", "Worked alone", "Avoided teamwork", "No experience"],
+                answer: "Collaborated on projects"
+            },
+            {
+                question: "What motivates you?",
+                options: ["Challenging projects", "Money", "Vacations", "No motivation"],
+                answer: "Challenging projects"
+            },
+            {
+                question: "How do you stay updated in your field?",
+                options: ["Read articles and take courses", "Follow social media", "Do nothing", "Rely on colleagues"],
+                answer: "Read articles and take courses"
+            },
+            {
+                question: "Describe a challenge you faced.",
+                options: ["Explain a work-related challenge", "Personal issue", "Irrelevant story", "No challenges"],
+                answer: "Explain a work-related challenge"
+            },
+            {
+                question: "What is your approach to problem-solving?",
+                options: ["Systematic analysis", "Guesswork", "Ignore problems", "Ask others"],
+                answer: "Systematic analysis"
+            },
+            {
+                question: "Where do you see yourself in 5 years?",
+                options: ["Growing in the company", "Uncertain", "Different industry", "Retired"],
+                answer: "Growing in the company"
+            }
+        ];
+
+        async function startTest(testType) {
+            if (!isShortlisted) {
+                showNotification('You must be shortlisted to take a test. Please apply for a job first.');
+                return;
+            }
+
+            const testSequence = getTestSequence();
+            if (!testSequence.includes(testType)) {
+                showNotification('This test is not available for your job type.');
+                return;
+            }
+
+            const mediaAccessGranted = await requestMediaAccess();
+            if (!mediaAccessGranted) {
+                showTab('test');
+                return;
+            }
+
+            startRecording();
+
+            currentTestType = testType;
+            let questions = [];
+            switch (testType) {
+                case 'aptitude':
+                    questions = aptitudeQuestions;
+                    break;
+                case 'programming':
+                    questions = programmingQuestions;
+                    break;
+                case 'technical':
+                    questions = technicalQuestions;
+                    break;
+                case 'communication':
+                    questions = communicationQuestions;
+                    break;
+                case 'interview':
+                    questions = interviewQuestions;
+                    break;
+                case 'css-box-model':
+                    questions = cssBoxModelQuestions;
+                    break;
+                default:
+                    showNotification('Invalid test type.');
+                    stopRecording();
+                    stopMediaStream();
+                    return;
+            }
+
+            if (questions.length < 10) {
+                showNotification('Not enough questions available for this test.');
+                stopRecording();
+                stopMediaStream();
+                return;
+            }
+
+            currentQuestions = [];
+            const shuffled = questions.sort(() => 0.5 - Math.random());
+            currentQuestions = shuffled.slice(0, 10);
+            userAnswers = new Array(currentQuestions.length).fill(null);
+
+            document.getElementById('test-title').textContent = `${testType.replace('css-box-model', 'CSS Box Model').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} Test`;
+            const questionsDiv = document.getElementById('test-questions');
+            questionsDiv.innerHTML = '';
+
+            currentQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'test-question' + (document.body.classList.contains('dark-mode') ? ' dark-mode' : '');
+                questionDiv.innerHTML = `<p>${index + 1}. ${q.question.replace(/\n/g, '<br>')}</p>`;
+                q.options.forEach((option, optIndex) => {
+                    const optionId = `q${index}-opt${optIndex}`;
+                    questionDiv.innerHTML += `
+          <label>
+            <input type="radio" name="q${index}" value="${option}" id="${optionId}" required>
+            ${option}
+          </label>
+        `;
+                });
+                questionsDiv.appendChild(questionDiv);
+            });
+
+            document.getElementById('test-form').reset();
+            document.getElementById('test-result').style.display = 'none';
+            document.getElementById('test-form').onsubmit = handleTestSubmit;
+            showTab('test-interface');
+        }
+
+        function handleTestSubmit(event) {
+            event.preventDefault();
+            const form = document.getElementById('test-form');
+            const resultDiv = document.getElementById('test-result');
+            let correctCount = 0;
+
+            currentQuestions.forEach((q, index) => {
+                const selectedOption = form.querySelector(`input[name="q${index}"]:checked`);
+                userAnswers[index] = selectedOption ? selectedOption.value : null;
+                if (userAnswers[index] === q.answer) {
+                    correctCount++;
+                }
+            });
+
+            stopRecording();
+            stopMediaStream();
+
+            const score = (correctCount / currentQuestions.length) * 100;
+            const testSequence = getTestSequence();
+            resultDiv.style.display = 'block';
+            resultDiv.className = `test-result ${score >= 70 ? 'correct' : 'incorrect'}`;
+
+            if (score >= 70) {
+                if (currentTestType === 'interview') {
+                    const user = registeredUsers[registeredUsers.length - 1] || {
+                        name: 'Unknown',
+                        email: 'unknown@example.com'
+                    };
+                    interviewCompletedCandidates.push({
+                        name: user.name,
+                        email: user.email,
+                        jobTitle: currentJobTitle,
+                        interviewScore: score.toFixed(2)
+                    });
+                    updateAnalytics();
+                }
+                currentTestIndex = testSequence.indexOf(currentTestType) + 1;
+                if (currentTestIndex < testSequence.length) {
+                    const nextTest = testSequence[currentTestIndex];
+                    resultDiv.innerHTML = `
+          You scored ${score.toFixed(2)}% (${correctCount}/10) on the ${currentTestType.replace('css-box-model', 'CSS Box Model').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} test. Congratulations, you passed!
+          <button class="btn-green" onclick="startTest('${nextTest}')">Proceed to ${nextTest.replace('css-box-model', 'CSS Box Model').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} Test</button>
+        `;
+                    showNotification(`Test submitted! Your score: ${score.toFixed(2)}%. Proceed to the ${nextTest.replace('css-box-model', 'CSS Box Model').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} test.`);
+                } else {
+                    resultDiv.innerHTML = `
+          You scored ${score.toFixed(2)}% (${correctCount}/10) on the ${currentTestType.replace('css-box-model', 'CSS Box Model').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} test. Congratulations, you have completed all tests!
+          <button class="btn" onclick="showTab('jobs')">Back to Jobs</button>
+        `;
+                    showNotification('Congratulations! You have completed all tests successfully.');
+                    isShortlisted = false;
+                    currentTestIndex = 0;
+                    jobType = '';
+                }
+            } else {
+                resultDiv.innerHTML = `
+        You scored ${score.toFixed(2)}% (${correctCount}/10) on the ${currentTestType.replace('css-box-model', 'CSS Box Model').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} test. Sorry, you need at least 7 correct answers to proceed.
+        <button class="btn" onclick="startTest('${currentTestType}')">Try Again</button>
+        <button class="btn" onclick="showTab('jobs')">Back to Jobs</button>
+      `;
+                showNotification(`Test submitted! Your score: ${score.toFixed(2)}%. Please try again or return to jobs.`);
+            }
+        }
+    </script>
+</body>
+
+</html>
